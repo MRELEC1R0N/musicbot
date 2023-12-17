@@ -15,6 +15,7 @@ def run():
     # intents.message_content = True
 
     bot = commands.Bot(command_prefix="!", intents=intents)
+    bot.song_queue = []
 
     # Load all cogs on bot ready
     async def load_cogs():
