@@ -1,0 +1,8 @@
+INFO       - 2023-12-17 20:31:22,182 - client          : logging in using static token
+INFO       - 2023-12-17 20:31:24,471 - gateway         : Shard ID None has connected to Gateway (Session ID: 2b3f42eb162ea5d4e19712deeb1c92ec).
+INFO       - 2023-12-17 20:32:34,569 - voice_client    : Connecting to voice...
+INFO       - 2023-12-17 20:32:34,570 - voice_client    : Starting voice handshake... (connection attempt 1)
+INFO       - 2023-12-17 20:32:35,156 - voice_client    : Voice handshake complete. Endpoint found india4938.discord.media
+INFO       - 2023-12-17 20:34:23,397 - player          : ffmpeg process 3652 successfully terminated with return code of 0.
+INFO       - 2023-12-17 20:36:07,444 - voice_client    : Disconnecting from voice normally, close code 1000.
+INFO       - 2023-12-17 20:36:07,494 - voice_client    : The voice handshake is being terminated for Channel ID 1185958872196845711 (Guild ID 1185958109353615501)
