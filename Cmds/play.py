@@ -1,54 +1,117 @@
-import discord
 from discord.ext import commands
-from discord.ui import Button, ActionRow, ButtonStyle
-from youtube_dl import YoutubeDL
-from youtube_dl.utils import DownloadError
-from discord import FFmpegPCMAudio
+from discord import FFmpegPCMAudio, ButtonStyle, InteractionType
+from discord.ui import Button, View
+from bs4 import BeautifulSoup
+import requests
+from youtube_dlc import YoutubeDL
+from extra_funtions import measure_time
+from discord import Embed
+from urllib.parse import urlparse
+
+
+
+
+class SkipButton(Button):
+    def __init__(self, cog):
+        super().__init__(style=ButtonStyle.primary, label="Skip")
+        self.cog = cog
+
+    async def callback(self, interaction):
+        if self.cog.song_queue:
+            self.cog.play_next_song()
+            await interaction.response.send_message("Skipped to the next song.", ephemeral=True)
+        else:
+            await interaction.response.send_message("No more songs in the queue.", ephemeral=True)
+
+class MusicView(View):
+    def __init__(self, cog):
+        super().__init__()
+        self.add_item(SkipButton(cog))
 
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.song_queue = bot.song_queue
+        self.view = MusicView(self)
 
-    @commands.command(name="play", help="Plays a song.")
-    async def play(self, ctx, url: str):
-        try:
-            # Connect to voice channel
+    @commands.command()
+    async def join(self, ctx):
+        if not ctx.voice_client or not ctx.voice_client.is_connected():
             channel = ctx.author.voice.channel
-            if not channel:
-                await ctx.send("You're not connected to a voice channel!")
-                return
-            voice_channel = await channel.connect()
+            await channel.connect()
 
-            # Download song
-            ydl_opts = {'format': 'bestaudio'}
-            with YoutubeDL(ydl_opts) as ydl:
+    @commands.command(name="play", help="Plays a song from YouTube.")
+    @measure_time
+    async def play_song(self, ctx,url):
+        parsed_url = urlparse(url)
+        artist = None
+        title = None
+        album = None
+
+            
+        if ctx.author.voice and ctx.author.voice.channel:
+                    '''checking if user is connected or not'''
+                    if not ctx.voice_client or not ctx.voice_client.is_connected():
+                        await ctx.author.voice.channel.connect()
+
+        else:
+                    await ctx.send("You are not connected to a voice channel.")
+                    return
+            
+
+        if "youtube.com" in parsed_url.netloc or "youtu.be" in parsed_url.netloc:
+            # Handle YouTube URLs
+            with YoutubeDL({"format": "bestaudio/best", "noplaylist": True}) as ydl:
                 info = ydl.extract_info(url, download=False)
-                url2 = info['formats'][0]['url']
-                voice_channel.play(FFmpegPCMAudio(url2))
+                audio_url = info['formats'][0]['url']
+                title = info['title']
 
-            # Create UI elements
-            play_button = Button(style=ButtonStyle.primary, label="Play/Pause", custom_id="play_pause")
-            skip_button = Button(style=ButtonStyle.primary, label="Skip", custom_id="skip")
-            stop_button = Button(style=ButtonStyle.danger, label="Stop", custom_id="stop")
-            action_row = ActionRow(play_button, skip_button, stop_button)
+        else:
+            # Handle non-YouTube URLs (e.g., Spotify)
+            try:
+                page = requests.get(url)
+                soup = BeautifulSoup(page.content, "lxml")
 
-            # Send the embed and UI to the channel
-            await ctx.send(f"Now playing: {info['title']}", components=[action_row])
+                artist_tag = soup.find("meta", {"property": "og:music:artist"})
+                title_tag = soup.find("meta", {"property": "og:title"})
+                album_tag = soup.find("meta", {"property": "og:music:album"})
 
-        except DownloadError:
-            await ctx.send("Could not download song. Please make sure the URL is a valid YouTube URL and the song is available.")
+                artist = artist_tag.attrs["content"] if artist_tag else None
+                title = title_tag.attrs["content"] if title_tag else None
+                album = album_tag.attrs["content"] if album_tag else None
 
-    @commands.Cog.listener()
-    async def on_button_click(self, interaction: discord.Interaction):
-        if interaction.component.custom_id == "play_pause":
-            # Implement logic to pause/resume playback
-            ...
-        elif interaction.component.custom_id == "skip":
-            # Implement logic to skip to the next song
-            ...
-        elif interaction.component.custom_id == "stop":
-            # Implement logic to stop playback
-            ...
+                search_query = f"{artist} - {title}" + (f" - {album}" if album else "")
+
+                with YoutubeDL({"format": "bestaudio/best", "noplaylist": True}) as ydl:
+                    info = ydl.extract_info(f"ytsearch:{search_query}", download=False)
+                    audio_url = info['entries'][0]['formats'][0]['url']
+
+            except Exception as e:
+                await ctx.send(f"Error playing song: {e}")
+
+
+    
+
+
+            if not ctx.voice_client.is_playing():
+                ctx.voice_client.play(FFmpegPCMAudio(audio_url,before_options="-ss 00:00:05"), after=self.play_next_song)
+
+                embed = Embed(title="Now Playing", description=f"{info['entries'][0]['title']}", color=0x00ff00)
+                embed.add_field(name="Artist", value=artist, inline=True)
+                embed.add_field(name="Album", value=album, inline=True)
+                embed.set_thumbnail(url=info['entries'][0]['thumbnails'][0]['url'])
+                await ctx.send(embed=embed, view=self.view)
+
+            else:
+                self.song_queue.append(audio_url)
+                await ctx.send(f"Song added to queue.", view=self.view)
+
+    def play_next_song(self, error=None):
+        if error:
+            print(f"Player error: {error}")
+        if self.song_queue:
+            next_song = self.song_queue.pop(0)  # Songs are removed from the queue here
+            self.bot.voice_clients[0].play(FFmpegPCMAudio(next_song), after=self.play_next_song)
 
 def setup(bot):
     bot.add_cog(Music(bot))
