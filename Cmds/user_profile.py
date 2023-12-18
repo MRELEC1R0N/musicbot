@@ -16,5 +16,5 @@ class UserProfile(commands.Cog):
             self.users_info.insert_one({"_id": user_id, "username": username, "songs_played": [], "saved_playlists": []})
             await ctx.send("You've been registered!")
 
-async def setup(bot):
-    await bot.add_cog(UserProfile(bot))
+def setup(bot):
+    bot.add_cog(UserProfile(bot))

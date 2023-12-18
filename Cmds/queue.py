@@ -46,5 +46,5 @@ class QueueCommands(commands.Cog):
             await ctx.send("Invalid index.")
 
 
-async def setup(bot):
-    await bot.add_cog(QueueCommands(bot))
+def setup(bot):
+    bot.add_cog(QueueCommands(bot))

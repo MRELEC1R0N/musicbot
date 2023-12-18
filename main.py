@@ -22,7 +22,7 @@ def run():
     async def load_cogs():
         for cog_file in settings.CMDS_DIR.glob("*.py"):
             if cog_file.is_file():
-                await bot.load_extension(f"Cmds.{cog_file.stem}")
+                bot.load_extension(f"Cmds.{cog_file.stem}")
                 logger.info(f"Loaded {cog_file.stem}")
 
     @bot.event
@@ -41,7 +41,7 @@ def run():
 
 
     tracemalloc.start()
-    bot.run(settings.Discord_api, root_logger=True)
+    bot.run(settings.Discord_api)
 
 
 if __name__ == "__main__":
