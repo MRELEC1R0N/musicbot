@@ -13,10 +13,10 @@ class QueueCommands(commands.Cog):
         else:
             await ctx.send("Here's the current song queue:\n" + "\n".join(self.song_queue))
 
-    @commands.command(name="skip", help="Skips the current song.")
-    async def skip_song(self, ctx):
-        if ctx.voice_client.is_playing():
-            ctx.voice_client.stop()
+    # @commands.command(name="skip", help="Skips the current song.")
+    # async def skip(self, ctx):
+    #     if ctx.voice_client.is_playing():
+    #         ctx.voice_client.stop()
 
     @commands.command(name="clear_queue", help="Clears the song queue.")
     async def clear_queue(self, ctx):

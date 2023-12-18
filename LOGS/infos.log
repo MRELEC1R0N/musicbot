@@ -1,0 +1,43 @@
+INFO       - 2023-12-19 02:36:22,835 - client          : logging in using static token
+INFO       - 2023-12-19 02:36:23,994 - gateway         : Shard ID None has sent the IDENTIFY payload.
+INFO       - 2023-12-19 02:36:24,462 - gateway         : Shard ID None has connected to Gateway: ["gateway-prd-us-east1-d-qjx1",{"micros":117972,"calls":["id_created",{"micros":852,"calls":[]},"session_lookup_time",{"micros":364,"calls":[]},"session_lookup_finished",{"micros":16,"calls":[]},"discord-sessions-prd-2-171",{"micros":115737,"calls":["start_session",{"micros":89189,"calls":["discord-api-56697bf949-w569j",{"micros":84081,"calls":["get_user",{"micros":9822},"get_guilds",{"micros":13596},"send_scheduled_deletion_message",{"micros":11},"guild_join_requests",{"micros":238},"authorized_ip_coro",{"micros":14}]}]},"starting_guild_connect",{"micros":73,"calls":[]},"presence_started",{"micros":328,"calls":[]},"guilds_started",{"micros":179,"calls":[]},"guilds_connect",{"micros":1,"calls":[]},"presence_connect",{"micros":25913,"calls":[]},"connect_finished",{"micros":25919,"calls":[]},"build_ready",{"micros":46,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":0,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: 0d4cd4a7264c19bde32554d0da4371c8).
+INFO       - 2023-12-19 02:37:58,470 - voice_client    : Connecting to voice...
+INFO       - 2023-12-19 02:37:58,470 - voice_client    : Starting voice handshake... (connection attempt 1)
+INFO       - 2023-12-19 02:37:59,059 - voice_client    : Voice handshake complete. Endpoint found india2397.discord.media
+INFO       - 2023-12-19 02:37:59,568 - gateway         : selected the voice protocol for use (xsalsa20_poly1305_lite)
+INFO       - 2023-12-19 02:37:59,622 - gateway         : received secret key for voice connection
+INFO       - 2023-12-19 02:38:31,213 - player          : Preparing to terminate ffmpeg process 12880.
+INFO       - 2023-12-19 02:38:31,220 - player          : ffmpeg process 12880 has not terminated. Waiting to terminate...
+INFO       - 2023-12-19 02:38:31,232 - player          : ffmpeg process 12880 should have terminated with a return code of 1.
+INFO       - 2023-12-19 02:39:52,480 - player          : Preparing to terminate ffmpeg process 12380.
+INFO       - 2023-12-19 02:39:52,481 - player          : ffmpeg process 12380 has not terminated. Waiting to terminate...
+INFO       - 2023-12-19 02:39:52,494 - player          : ffmpeg process 12380 should have terminated with a return code of 1.
+INFO       - 2023-12-19 02:40:42,883 - player          : Preparing to terminate ffmpeg process 4068.
+INFO       - 2023-12-19 02:40:42,885 - player          : ffmpeg process 4068 has not terminated. Waiting to terminate...
+INFO       - 2023-12-19 02:40:42,895 - player          : ffmpeg process 4068 should have terminated with a return code of 1.
+INFO       - 2023-12-19 02:43:06,674 - player          : Preparing to terminate ffmpeg process 16808.
+INFO       - 2023-12-19 02:43:06,679 - player          : ffmpeg process 16808 has not terminated. Waiting to terminate...
+INFO       - 2023-12-19 02:43:06,690 - player          : ffmpeg process 16808 should have terminated with a return code of 1.
+INFO       - 2023-12-19 02:44:17,890 - player          : Preparing to terminate ffmpeg process 16112.
+INFO       - 2023-12-19 02:44:17,890 - player          : ffmpeg process 16112 has not terminated. Waiting to terminate...
+INFO       - 2023-12-19 02:44:17,905 - player          : ffmpeg process 16112 should have terminated with a return code of 1.
+INFO       - 2023-12-19 02:46:03,355 - player          : Preparing to terminate ffmpeg process 5924.
+INFO       - 2023-12-19 02:46:03,355 - player          : ffmpeg process 5924 has not terminated. Waiting to terminate...
+INFO       - 2023-12-19 02:46:03,364 - player          : ffmpeg process 5924 should have terminated with a return code of 1.
+INFO       - 2023-12-19 02:49:21,623 - player          : Preparing to terminate ffmpeg process 19072.
+INFO       - 2023-12-19 02:49:21,623 - player          : ffmpeg process 19072 has not terminated. Waiting to terminate...
+INFO       - 2023-12-19 02:49:21,633 - player          : ffmpeg process 19072 should have terminated with a return code of 1.
+INFO       - 2023-12-19 02:49:31,333 - player          : Preparing to terminate ffmpeg process 17104.
+INFO       - 2023-12-19 02:49:31,333 - player          : ffmpeg process 17104 has not terminated. Waiting to terminate...
+INFO       - 2023-12-19 02:49:31,342 - player          : ffmpeg process 17104 should have terminated with a return code of 1.
+INFO       - 2023-12-19 02:50:01,628 - player          : Preparing to terminate ffmpeg process 18052.
+INFO       - 2023-12-19 02:50:01,628 - player          : ffmpeg process 18052 has not terminated. Waiting to terminate...
+INFO       - 2023-12-19 02:50:01,640 - player          : ffmpeg process 18052 should have terminated with a return code of 1.
+INFO       - 2023-12-19 02:50:02,843 - player          : Preparing to terminate ffmpeg process 8156.
+INFO       - 2023-12-19 02:50:02,844 - player          : ffmpeg process 8156 successfully terminated with return code of 3436169992.
+INFO       - 2023-12-19 02:50:31,835 - client          : Received signal to terminate bot and event loop.
+INFO       - 2023-12-19 02:50:31,837 - client          : Cleaning up tasks.
+INFO       - 2023-12-19 02:50:31,839 - client          : Cleaning up after 4 tasks.
+INFO       - 2023-12-19 02:50:31,839 - voice_client    : The voice handshake is being terminated for Channel ID 1185958109823381597 (Guild ID 1185958109353615501)
+INFO       - 2023-12-19 02:50:31,845 - client          : All tasks finished cancelling.
+INFO       - 2023-12-19 02:50:31,847 - client          : Closing the event loop.

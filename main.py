@@ -34,7 +34,7 @@ def run():
         @bot.command(name=  cmd)
         async def _cmd(ctx, cog: str):
             try:
-                await getattr(bot, f'{cmd}_extension')(f"Cmds.{cog.lower()}")
+                getattr(bot, f'{cmd}_extension')(f"Cmds.{cog.lower()}")
                 await ctx.send(f'Done {cmd}ing')
             except Exception as e:
                 await ctx.send(f'Error: {e}')
