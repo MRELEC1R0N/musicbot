@@ -4,7 +4,7 @@ from discord import FFmpegPCMAudio
 from youtube_dlc import YoutubeDL
 import settings
 import tracemalloc
-
+from db import Database
 
 
 logger = settings.logging.getLogger("bot")
@@ -16,6 +16,7 @@ def run():
 
     bot = commands.Bot(command_prefix="!", intents=intents)
     bot.song_queue = []
+    bot.db = Database(settings.database_key, "Music")
 
     # Load all cogs on bot ready
     async def load_cogs():

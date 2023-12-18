@@ -7,6 +7,7 @@ import pathlib
 
 load_dotenv()
 Discord_api = os.getenv("DISCORD_API_TOKEN")
+database_key = os.getenv("DATA_BASE_KEY")
 
 
 BASE_DIR = pathlib.Path(__file__).parent

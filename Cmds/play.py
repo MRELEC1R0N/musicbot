@@ -9,6 +9,7 @@ class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.song_queue = bot.song_queue
+        
 
     @commands.command()
     async def join(self, ctx):
