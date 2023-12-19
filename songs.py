@@ -44,4 +44,6 @@ async def get_song_info(url):
         except Exception as e:
             raise SongInfoError(f"Error getting song info: {e}")
 
-    return audio_url, title, artist, album,info
+    return audio_url, title, artist, album
+
+
