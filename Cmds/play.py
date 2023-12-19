@@ -24,11 +24,13 @@ class Music(commands.Cog):
     async def play_audio(self, ctx, song_info):
         voice_client = ctx.voice_client if isinstance(ctx, commands.Context) else self.bot.get_guild(ctx.guild_id).voice_client
         voice_client.play(FFmpegPCMAudio(song_info['audio_url'], before_options="-ss 00:00:05"), after=self.after_callback)
-        now_playing_view = NowPlayingView(song_info)
+        now_playing_view = NowPlayingView(self, song_info)  # Pass self (the cog) as the first argument
+
+        embed = Embed(title="Now Playing", description=f"{song_info['title']} by {song_info['artist']} from the album {song_info['album']}")
         if isinstance(ctx, commands.Context):
-            await ctx.send(content=f"Now playing: {song_info['title']} by {song_info['artist']} from the album {song_info['album']}", view=now_playing_view)
+            await ctx.send(embed=embed, view=now_playing_view)
         else:  # ctx is an InteractionContext
-            await ctx.response.send_message(content=f"Now playing: {song_info['title']} by {song_info['artist']} from the album {song_info['album']}", view=now_playing_view)
+            await ctx.response.send_message(embed=embed, view=now_playing_view)
 
 
 
@@ -95,8 +97,23 @@ class Music(commands.Cog):
             {"$push": {"song_queue": song_queue_item}},
             upsert=True
         )
+    @commands.command(name="pause", help="Pauses the currently playing song.")
+    async def pause_song(self, ctx):
+        voice_client = ctx.voice_client if isinstance(ctx, commands.Context) else self.bot.get_guild(ctx.guild_id).voice_client
+        if voice_client.is_playing():
+            voice_client.pause()
+            await ctx.send("Paused the current song.")
+        else:
+            await ctx.send("No song is currently playing.")
 
-
+    @commands.command(name="resume", help="Resumes the paused song.")
+    async def resume_song(self, ctx):
+        voice_client = ctx.voice_client if isinstance(ctx, commands.Context) else self.bot.get_guild(ctx.guild_id).voice_client
+        if voice_client.is_paused():
+            voice_client.resume()
+            await ctx.send("Resumed the song.")
+        else:
+            await ctx.send("No song is currently paused.")
 
 
     @commands.command(name="skip", help="Skips the currently playing song.")
