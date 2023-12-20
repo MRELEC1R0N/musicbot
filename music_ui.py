@@ -3,8 +3,8 @@
 from discord import ButtonStyle, InteractionType
 from discord.ui import Button, View
 from discord import Interaction
-from discord import Message
 from discord.errors import InteractionResponded
+from music_utils import play_audio, after_callback, skip_song, pause_song, resume_song
 
 class SkipButton(Button):
     def __init__(self, cog):
@@ -14,7 +14,7 @@ class SkipButton(Button):
     async def callback(self, interaction: Interaction):
         try:
             await interaction.response.send_message("Processing skip request...", ephemeral=True)
-            await self.cog.skip_song(interaction)
+            await after_callback(interaction)
         except InteractionResponded:
             pass  # interaction has already been responded to, do nothing
 
@@ -29,11 +29,15 @@ class SkipButton(Button):
             pass
 
         # Perform the actual song skipping here
+        await skip_song(interaction)
 
 class MusicView(View):
     def __init__(self, cog):
         super().__init__()
         self.add_item(SkipButton(cog))
+
+    async def after_callback(self, interaction: Interaction):
+        await after_callback(interaction)
 
 class PauseButton(Button):
     def __init__(self, cog):
@@ -55,7 +59,7 @@ class PauseButton(Button):
             pass
 
         # Perform the actual song pausing here
-        await self.cog.pause_song(interaction)
+        await pause_song(interaction)
 
 class ResumeButton(Button):
     def __init__(self, cog):
@@ -77,7 +81,7 @@ class ResumeButton(Button):
             pass
 
         # Perform the actual song resuming here
-        await self.cog.resume_song(interaction)
+        await resume_song(interaction)
 
 class NowPlayingView(View):
     def __init__(self, cog, song_info):
